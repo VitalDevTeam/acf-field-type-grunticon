@@ -50,8 +50,26 @@ class acf_plugin_grunticon {
 
 		// include field
 		add_action('acf/include_field_types', 	array($this, 'include_field_types')); // v5
-		add_action('acf/register_fields', 		array($this, 'include_field_types')); // v4
+		add_action('admin_enqueue_scripts', array($this, 'vital_enqueue_admin_scripts'));
 
+	}
+
+	function vital_enqueue_admin_scripts(){
+	    //Grunticon
+	    wp_enqueue_script(
+	        'admin_grunticon',
+	        get_template_directory_uri() . '/assets/scripts/libraries/grunticon.js',
+	        false,
+	        filemtime(get_template_directory() . '/assets/scripts/libraries/grunticon.js'),
+	        true
+	    );
+
+	    $site_info = array(
+	        'homeUrl'        => get_home_url(),
+	        'themeDirectory' => get_template_directory_uri(),
+	        'grunticonPath'  => get_template_directory_uri() . '/assets/grunticon/dist/'
+	    );
+	    wp_localize_script('admin_grunticon', 'SiteInfo', $site_info);
 	}
 
 
